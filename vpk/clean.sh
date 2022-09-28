@@ -1,0 +1,1 @@
+sudo rm -rf ./vitapad.vpk ./vitapad.self ./vitapad.self.out ./vitapad.vpk.out ./vitapad.vpk_param.sfo ./stubs ./Makefile ./stubs.yml ./CMakeFiles ./cmake-build-debug ./cmake_install.cmake ./CMakeCache.txt ./vitapad ./vitapad.skprx ./vitapad.skprx.out ./vitapad.velf

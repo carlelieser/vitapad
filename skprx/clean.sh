@@ -1,0 +1,1 @@
+sudo rm -rf ./stubs ./libvitapad_stub.a ./libvitapad_stub_weak.a ./Makefile ./stubs.yml ./CMakeFiles ./cmake_install.cmake ./CMakeCache.txt ./vitapad ./vitapad.skprx ./vitapad.skprx.out ./vitapad.velf

@@ -1,0 +1,17 @@
+---
+modules:
+  vitapad:
+    nid: 0x3c5d5c9
+    libraries:
+      VitaPadForUser:
+        nid: 0xec96f80e
+        kernel: false
+        version: 0x1
+        functions:
+          vitaPadStart: 0x6249b10f
+          vitaPadStop: 0xf44c9515
+          vitaPadUsbAttached: 0xa4367062
+          vitaPadUpdateL2Pressed: 0x6c571595
+          vitaPadUpdateR2Pressed: 0x8156d8f6
+          vitaPadUpdateL3Pressed: 0xa04945e7
+          vitaPadUpdateR3Pressed: 0xd44aea9f

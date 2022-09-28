@@ -1,0 +1,19 @@
+vitapad:
+  attributes: 0
+  version:
+    major: 1
+    minor: 0
+  main:
+    start: module_start
+    stop: module_stop
+  modules:
+    VitaPadForUser:
+      syscall: true
+      functions:
+        - vitaPadStart
+        - vitaPadStop
+        - vitaPadUsbAttached
+        - vitaPadUpdateL2Pressed
+        - vitaPadUpdateR2Pressed
+        - vitaPadUpdateL3Pressed
+        - vitaPadUpdateR3Pressed
