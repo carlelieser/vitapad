@@ -656,21 +656,20 @@ void drawFrontTouchPanelBorder() {
 
 
 void displayStatusBar() {
-    struct SceTouchPanelInfo FRONT_PANEL_INFO = getScaledTouchPanelInfo(SCE_TOUCH_PORT_FRONT, 50);
-    int statusBarTextY = FRONT_PANEL_INFO.maxAaY - (STATUS_BAR_HEIGHT / 2) - (FONT_Y_SPACE / 2);
-    vita2d_draw_rectangle(FRONT_PANEL_INFO.minAaX, FRONT_PANEL_INFO.maxAaY - STATUS_BAR_HEIGHT, FRONT_PANEL_INFO.maxAaX, STATUS_BAR_HEIGHT, TOUCHPAD_CONTROLS_STATUS_BAR_BG);
-    pgf_draw_text(FRONT_PANEL_INFO.minAaX + 20, statusBarTextY, WHITE, REAR_TOUCHPAD_VISIBLE ? "REAR TOUCHPAD" : "FRONT TOUCHPAD");
+    int statusBarTextY = SCREEN_HEIGHT - (STATUS_BAR_HEIGHT / 2) - (FONT_Y_SPACE / 2);
+    vita2d_draw_rectangle(0, SCREEN_HEIGHT - STATUS_BAR_HEIGHT, SCREEN_WIDTH, STATUS_BAR_HEIGHT, TOUCHPAD_CONTROLS_STATUS_BAR_BG);
+    pgf_draw_text(SCREEN_MARGIN, statusBarTextY, WHITE, REAR_TOUCHPAD_VISIBLE ? "REAR TOUCHPAD" : "FRONT TOUCHPAD");
 
     if (strcmp(CURRENT_TOUCHPAD_BUTTON_SELECTED, "") != 0) {
         char selectedText[12];
         sprintf(selectedText, "%s SELECTED", CURRENT_TOUCHPAD_BUTTON_SELECTED);
-        pgf_draw_text((FRONT_PANEL_INFO.maxAaX / 2) - (pgf_text_width(selectedText) / 2), statusBarTextY, WHITE, selectedText);
+        pgf_draw_text((SCREEN_WIDTH / 2) - (pgf_text_width(selectedText) / 2), statusBarTextY, WHITE, selectedText);
     }
 
     int length = getCharArraySize(TouchPadButtons);
     for (int i = 0; i < length; ++i) {
         int margin = FONT_X_SPACE * 2;
-        int x = FRONT_PANEL_INFO.maxAaX - ((length - i) * pgf_text_width(TouchPadButtons[i])) - ((length - i) * margin);
+        int x = SCREEN_WIDTH - ((length - i) * pgf_text_width(TouchPadButtons[i])) - ((length - i) * margin);
         int active = buttonIsInTouchPad(!REAR_TOUCHPAD_VISIBLE, TouchPadButtons[i]);
         pgf_draw_text(x, statusBarTextY, active ? WHITE : WHITE_OPACITY_30, TouchPadButtons[i]);
     }
