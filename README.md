@@ -9,7 +9,6 @@ This is an improved version of the [vitastick plugin by xerpi](https://github.co
 - Enable or disable active gamepad screen
 - Reduces clock frequencies when active to reduce power consumption
 - Disables use of power and PS buttons while gamepad functionality is active (this allows the gamepad to continue working as necessary)
-- Automatically disconnects after 2 minutes of inactivity
 
 ## 🚀 Installation
 1. Download the plugin and VPK from the [releases page](https://github.com/carlelieser/vitapad/releases).
