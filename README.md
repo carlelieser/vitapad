@@ -24,6 +24,7 @@ Open the VPK and connect your Vita via USB. Press X to initialize the gamepad fu
 
 ## Screenshots
 <div style="width: 100%;">
-   <img style="border-radius: 1rem;" title="Initial screen" src="screenshots/disconnected.png" alt="Initial screen" width="960"/>
-   <img style="border-radius: 1rem; margin-top: 1rem;" title="Connected screen" src="screenshots/connected.png" width="960" alt="Connected screen"/>
+   <img title="Initial screen" src="screenshots/main.png" alt="Initial screen" width="960"/>
+   <img title="Connected screen" src="screenshots/connected.png" width="960" alt="Connected screen"/>
+   <img title="Connected screen" src="screenshots/touchpad-control-settings.png" width="960" alt="Touchpad control edit screen"/>
 </div>
