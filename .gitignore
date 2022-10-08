@@ -10,9 +10,10 @@ skprx/vitapad
 skprx/vitapad.skprx
 skprx/vitapad.skprx.out
 skprx/vitapad.velf
+skprx/stubs.yml
 vpk/CMakeFiles
-vpk/resources/logo_active.png.o
-vpk/resources/logo_inactive.png.o
+vpk/resources/images/*.png.o
+vpk/resources/**/*.txt.o
 vpk/cmake_install.cmake
 vpk/CMakeCache.txt
 vpk/Makefile
