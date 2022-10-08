@@ -4,7 +4,9 @@ Use your PlayStation Vita as USB gamepad with rear touchpad controls.
 ## Features
 This is an improved version of the [vitastick plugin by xerpi](https://github.com/xerpi/vitastick) with added functionality, improved code readability, and some major changes that increase reliability and usability.
 - Simple and elegant interface
-- Ability to use rear touchpad controls (L2/R2 & L3/R3)
+- Captures touchpad control input (L2/R2 & L3/R3)
+- Allows custom placement of individual touchpad controls
+- Enable or disable active gamepad screen
 - Reduces clock frequencies when active to reduce power consumption
 - Disables use of power and PS buttons while gamepad functionality is active (this allows the gamepad to continue working as necessary)
 - Automatically disconnects after 2 minutes of inactivity
