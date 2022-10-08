@@ -10,13 +10,16 @@ extern "C" {
 #define VITAPAD_ERROR_DRIVER_ALREADY_ACTIVATED	0x91337002
 
 
-int vitaPadUsbAttached();
 void vitaPadStart(void);
 void vitaPadStop(void);
+void vitaPadPreventSleep(void);
 void vitaPadUpdateL2Pressed(int pressed);
 void vitaPadUpdateR2Pressed(int pressed);
 void vitaPadUpdateL3Pressed(int pressed);
 void vitaPadUpdateR3Pressed(int pressed);
+
+int vitaPadUsbAttached(void);
+int kuCtrlReadBufferPositive(SceCtrlData *pad_data, int count);
 
 #ifdef __cplusplus
 }

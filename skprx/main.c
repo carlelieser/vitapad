@@ -1,10 +1,9 @@
 #include <psp2kern/kernel/modulemgr.h>
-#include <psp2kern/kernel/sysmem.h>
 #include <psp2kern/kernel/cpu.h>
+#include <psp2kern/kernel/sysmem.h>
 #include <psp2kern/udcd.h>
 #include <psp2kern/ctrl.h>
 #include <psp2/kernel/processmgr.h>
-#include <psp2/motion.h>
 #include <taihen.h>
 #include <stdio.h>
 #include <string.h>
@@ -42,6 +41,28 @@ static int L2_PRESSED;
 static int R2_PRESSED;
 static int L3_PRESSED;
 static int R3_PRESSED;
+
+int kuCtrlReadBufferPositive(SceCtrlData *pad_data, int count)
+{
+    uint32_t state;
+    ENTER_SYSCALL(state);
+
+    SceCtrlData pad;
+    uint32_t off;
+
+    asm volatile ("mrc p15, 0, %0, c13, c0, 4" : "=r" (off));
+    asm volatile ("mcr p15, 0, %0, c13, c0, 4" :: "r" (0));
+
+    int res = ksceCtrlPeekBufferPositive(0, &pad, count);
+
+    asm volatile ("mcr p15, 0, %0, c13, c0, 4" :: "r" (off));
+
+    ksceKernelMemcpyKernelToUser((uintptr_t)pad_data, &pad, sizeof(SceCtrlData));
+
+    EXIT_SYSCALL(state);
+    return res;
+}
+
 
 static int sendDescHidReport(void)
 {
@@ -165,7 +186,7 @@ static int sendHidReport()
 	static struct GamepadReport gamepad __attribute__((aligned(64))) = { 0 };
 	SceCtrlData pad;
 
-	ksceCtrlPeekBufferPositive(0, &pad, 1);
+    ksceCtrlPeekBufferPositive(0, &pad, 1);
 	fillGamepadReport(&pad, &gamepad);
 	ksceKernelCpuDcacheAndL2WritebackRange(&gamepad, sizeof(gamepad));
 
@@ -347,7 +368,7 @@ int removeGamepadThread() {
 }
 
 int startGamepadThread() {
-    ksceKernelStartThread(USB_THREAD_ID, 0, NULL);
+    return ksceKernelStartThread(USB_THREAD_ID, 0, NULL);
 }
 
 int createGamepadFlag() {
@@ -389,17 +410,21 @@ int disconnectDriver() {
     return ksceKernelSetEventFlag(USB_EVENT_FLAG_ID, EVF_DISCONNECTED);
 }
 
-int stopUsbDrivers() {
+void stopUsbDrivers() {
     ksceUdcdStop("USB_MTP_Driver", 0, NULL);
     ksceUdcdStop("USBPSPCommunicationDriver", 0, NULL);
     ksceUdcdStop("USBSerDriver", 0, NULL);
     ksceUdcdStop("USBDeviceControllerDriver", 0, NULL);
 }
 
-int resetGamepad() {
+void resetGamepad() {
     unregisterGamepad();
     removeGamepadThread();
     removeGamepadFlag();
+}
+
+void vitaPadPreventSleep() {
+    ksceKernelPowerTick(SCE_KERNEL_POWER_TICK_DEFAULT);
 }
 
 void vitaPadStart(void)

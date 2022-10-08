@@ -13,7 +13,9 @@ vitapad:
         - vitaPadStart
         - vitaPadStop
         - vitaPadUsbAttached
+        - vitaPadPreventSleep
         - vitaPadUpdateL2Pressed
         - vitaPadUpdateR2Pressed
         - vitaPadUpdateL3Pressed
         - vitaPadUpdateR3Pressed
+        - kuCtrlReadBufferPositive
