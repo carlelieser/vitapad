@@ -21,7 +21,7 @@ This is an improved version of the [vitastick plugin by xerpi](https://github.co
 4. Install `vitapad.vpk`.
 
 ## 🐈 Usage
-Open the VPK and connect your Vita via USB. Press X to initialize the gamepad functionality. Hold SELECT + START to disconnect. Enjoy!
+Open the VPK and connect your Vita via USB. Press start to initialize gamepad functionality. Press the PS button to disconnect. Enjoy!
 
 ## Screenshots
 <div style="width: 100%;">
