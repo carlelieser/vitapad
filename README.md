@@ -1,5 +1,5 @@
 # 🎮 VitaPad
-Use your PlayStation Vita as USB gamepad with rear touchpad controls.
+Use your PlayStation Vita as USB gamepad with front/rear touchpad controls.
 
 ## Features
 This is an improved version of the [vitastick plugin by xerpi](https://github.com/xerpi/vitastick) with added functionality, improved code readability, and some major changes that increase reliability and usability.
