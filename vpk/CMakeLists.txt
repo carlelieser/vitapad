@@ -14,12 +14,13 @@ project(${SHORT_NAME})
 include("${VITASDK}/share/vita.cmake" REQUIRED)
 
 set(VITA_APP_NAME "VitaPad")
-set(VITA_TITLEID  "VTAPD0002")
+set(VITA_TITLEID  "VITAPAD00")
 set(VITA_VERSION "01.04")
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu11")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -O3 -Wno-unused-variable -Wno-unused-but-set-variable -Wno-format-truncation -fno-lto")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(VITA_MKSFOEX_FLAGS "${VITA_MKSFOEX_FLAGS} -d PARENTAL_LEVEL=1")
+set(VITA_MAKE_FSELF_FLAGS "${VITA_MAKE_FSELF_FLAGS} -a 0x2808000000000000")
 
 if (NOT ${RELEASE})
 	add_definitions(-DENABLE_LOGGING)
@@ -62,7 +63,9 @@ link_directories(
 
 file(GLOB res_files RELATIVE
 	${CMAKE_SOURCE_DIR}
-	resources/*.png
+	resources/images/*.png
+	resources/default/*.txt
+	resources/*.txt
 )
 
 add_resources(vitapad_res
@@ -72,6 +75,12 @@ add_resources(vitapad_res
 add_executable(${SHORT_NAME}
 	${vitapad_res}
 	main.c
+	touchpad.c
+	utils.c
+	font.c
+	modal.c
+	menu.c
+	settings.c
 )
 
 target_link_libraries(${SHORT_NAME}
