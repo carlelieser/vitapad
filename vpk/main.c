@@ -147,7 +147,7 @@ void displayStatus() {
 }
 
 void displayVersion() {
-    char *version = "v2.0.0";
+    char *version = "v.2.0.0";
     int x = SCREEN_WIDTH - (pgf_text_width(version) + 20);
     int y = SCREEN_HEIGHT - (FONT_Y_SPACE + SCREEN_MARGIN);
 
