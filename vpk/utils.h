@@ -73,5 +73,6 @@ int scaleDownInt();
 int findIndexSmallest();
 void swap();
 void selectionSort();
+void drawRectangle();
 
 #endif

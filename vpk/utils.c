@@ -1,6 +1,7 @@
 #include <string.h>
 #include <psp2/power.h>
 #include <psp2/shellutil.h>
+#include <vita2d.h>
 #include "utils.h"
 
 int DEFAULT_ARM_CLOCK;
@@ -164,7 +165,7 @@ int getIntArraySize(int arr[]) {
     return sizeof arr / sizeof arr[0];
 }
 
-int scaleDownInt (int target, int scale) {
+int scaleDownInt(int target, int scale) {
     return (target * scale) / 100;
 }
 
@@ -205,4 +206,21 @@ void selectionSort(int arr[], int n)
                 min_idx = j;
         swap(&arr[min_idx], &arr[i]);
     }
+}
+
+void drawRectangle(int x, int y, int width, int height, int borderRadius, int color) {
+    int innerRectangleWidth = width - (borderRadius * 2);
+    int innerRectangleX = x + borderRadius;
+    int fillerRectangleY = y + borderRadius;
+    int fillerRectangleHeight = height - (borderRadius * 2);
+
+    vita2d_draw_rectangle(innerRectangleX, y, innerRectangleWidth, height, color);
+
+    vita2d_draw_fill_circle(x + borderRadius, y + borderRadius, borderRadius, color);
+    vita2d_draw_fill_circle(x + borderRadius + innerRectangleWidth, y + borderRadius, borderRadius, color);
+    vita2d_draw_fill_circle(x + borderRadius, y + height - borderRadius, borderRadius, color);
+    vita2d_draw_fill_circle(x + borderRadius + innerRectangleWidth, y + height - borderRadius, borderRadius, color);
+    
+    vita2d_draw_rectangle(x, fillerRectangleY, borderRadius, fillerRectangleHeight, color);
+    vita2d_draw_rectangle(x + width - borderRadius, fillerRectangleY, borderRadius, fillerRectangleHeight, color);
 }
