@@ -4,6 +4,8 @@
 #include <vita2d.h>
 #include "touchpad.h"
 
+#define MODAL_BORDER_RADIUS 16
+
 int handleModalDialogAction();
 void displayModalDialogs();
 void drawModalDialogActions();
