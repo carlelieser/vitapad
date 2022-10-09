@@ -141,7 +141,7 @@ void drawModalDialogActions(int modalX, int modalY, int modalWidth, int modalHei
         int iconY = labelY + iconYOffset;
 
         vita2d_draw_texture(i == 0 ? CROSS_BUTTON_TEXTURE : CIRCLE_BUTTON_TEXTURE, iconX, iconY);
-        pgf_draw_text(labelX, labelY, BLACK_OPACITY_80, label);
+        pgf_draw_text(labelX, labelY, MODAL_CONTENT_ACTION_COLOR, label);
 
         startX = iconX - buttonMargin;
     }
@@ -157,9 +157,9 @@ void displayModalDialogs() {
         int modalX = SCREEN_HALF_WIDTH - (modalWidth / 2);
         int modalY = SCREEN_HALF_HEIGHT - (modalHeight / 2);
 
-        vita2d_draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, BLACK_OPACITY_50);
-        vita2d_draw_rectangle(modalX, modalY, modalWidth, modalHeight, WHITE_OPACITY_90);
-        pgf_draw_textf(modalX + padding, modalY + padding, BLACK, CURRENT_MODAL.message);
+        vita2d_draw_rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, MODAL_BG);
+        drawRectangle(modalX, modalY, modalWidth, modalHeight, MODAL_BORDER_RADIUS, MODAL_CONTENT_BG);
+        pgf_draw_textf(modalX + padding, modalY + padding, MODAL_CONTENT_TEXT_COLOR, CURRENT_MODAL.message);
 
         drawModalDialogActions(modalX, modalY, modalWidth, modalHeight, padding);
     }
