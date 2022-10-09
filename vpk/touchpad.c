@@ -36,7 +36,7 @@ struct HelpBarItem HELP_BAR_ITEMS[5] = {};
 
 char *TouchPadButtons[4] = {"L2", "L3", "R2", "R3"};
 
-int STATUS_BAR_HEIGHT = FONT_Y_SPACE + 20;
+int STATUS_BAR_HEIGHT = FONT_Y_SPACE + 28;
 
 vita2d_texture *SELECT_BUTTON_TEXTURE = NULL;
 vita2d_texture *START_BUTTON_TEXTURE = NULL;
@@ -480,7 +480,7 @@ struct SceTouchPanelInfo getCenteredRearTouchPadInfo() {
     struct SceTouchPanelInfo frontPanelInfo = getScaledTouchPanelInfo(SCE_TOUCH_PORT_FRONT, 50);
 
     int xOffset = (frontPanelInfo.maxDispX / 2) - (scaledInfo.maxAaX / 2) + 1;
-    int yOffset = (frontPanelInfo.maxDispY / 2) - (scaledInfo.maxAaY / 2);
+    int yOffset = (frontPanelInfo.maxDispY / 2) - (scaledInfo.maxAaY / 2) - (SCREEN_MARGIN / 2);
 
     scaledInfo.minAaX = scaledInfo.minAaX + xOffset;
     scaledInfo.maxAaX = scaledInfo.maxAaX + xOffset;
@@ -495,7 +495,7 @@ struct SceTouchPanelInfo getCenteredFrontTouchPadInfo() {
     struct SceTouchPanelInfo frontPanelInfo = getScaledTouchPanelInfo(SCE_TOUCH_PORT_FRONT, 50);
 
     int xOffset = (frontPanelInfo.maxDispX / 2) - (scaledInfo.maxAaX / 2) + 1;
-    int yOffset = (frontPanelInfo.maxDispY / 2) - (scaledInfo.maxAaY / 2);
+    int yOffset = (frontPanelInfo.maxDispY / 2) - (scaledInfo.maxAaY / 2) - SCREEN_MARGIN;
 
     scaledInfo.minAaX = scaledInfo.minAaX + xOffset;
     scaledInfo.maxAaX = scaledInfo.maxAaX + xOffset;
@@ -636,29 +636,12 @@ int findTouchReport(SceTouchData data, int x1, int x2, int y1, int y2) {
     return 0;
 }
 
-void drawRearTouchPanelBorder() {
-    struct SceTouchPanelInfo info = getCenteredRearTouchPadInfo();
-
-    vita2d_draw_line(info.minAaX, info.minAaY, info.maxAaX + 1, info.minAaY, TOUCHPAD_CONTROLS_PANEL_BORDER_BG);
-    vita2d_draw_line(info.minAaX, info.minAaY, info.minAaX, info.maxAaY + 1, TOUCHPAD_CONTROLS_PANEL_BORDER_BG);
-    vita2d_draw_line(info.minAaX, info.maxAaY + 1, info.maxAaX + 1, info.maxAaY + 1, TOUCHPAD_CONTROLS_PANEL_BORDER_BG);
-    vita2d_draw_line(info.maxAaX + 1, info.minAaY, info.maxAaX + 1, info.maxAaY + 1, TOUCHPAD_CONTROLS_PANEL_BORDER_BG);
-}
-
-void drawFrontTouchPanelBorder() {
-    struct SceTouchPanelInfo info = getCenteredFrontTouchPadInfo();
-
-    vita2d_draw_line(info.minAaX, info.minAaY, info.maxAaX + 1, info.minAaY, TOUCHPAD_CONTROLS_PANEL_BORDER_BG);
-    vita2d_draw_line(info.minAaX, info.minAaY, info.minAaX, info.maxAaY + 1, TOUCHPAD_CONTROLS_PANEL_BORDER_BG);
-    vita2d_draw_line(info.minAaX, info.maxAaY + 1, info.maxAaX + 1, info.maxAaY + 1, TOUCHPAD_CONTROLS_PANEL_BORDER_BG);
-    vita2d_draw_line(info.maxAaX + 1, info.minAaY, info.maxAaX + 1, info.maxAaY + 1, TOUCHPAD_CONTROLS_PANEL_BORDER_BG);
-}
-
-
 void displayStatusBar() {
-    int statusBarTextY = SCREEN_HEIGHT - (STATUS_BAR_HEIGHT / 2) - (FONT_Y_SPACE / 2);
-    vita2d_draw_rectangle(0, SCREEN_HEIGHT - STATUS_BAR_HEIGHT, SCREEN_WIDTH, STATUS_BAR_HEIGHT, TOUCHPAD_CONTROLS_STATUS_BAR_BG);
-    pgf_draw_text(SCREEN_MARGIN, statusBarTextY, WHITE, REAR_TOUCHPAD_VISIBLE ? "REAR TOUCHPAD" : "FRONT TOUCHPAD");
+    int statusBarTextY = SCREEN_HEIGHT - SCREEN_MARGIN - (STATUS_BAR_HEIGHT / 2) - (FONT_Y_SPACE / 2);
+    int statusBarWidth = 800;
+    int statusBarX = SCREEN_HALF_WIDTH - (statusBarWidth / 2);
+    drawRectangle(statusBarX, SCREEN_HEIGHT - STATUS_BAR_HEIGHT - SCREEN_MARGIN, statusBarWidth, STATUS_BAR_HEIGHT, 14, TOUCHPAD_CONTROLS_STATUS_BAR_BG);
+    pgf_draw_text(statusBarX + SCREEN_MARGIN, statusBarTextY, WHITE, REAR_TOUCHPAD_VISIBLE ? "REAR TOUCHPAD" : "FRONT TOUCHPAD");
 
     if (strcmp(CURRENT_TOUCHPAD_BUTTON_SELECTED, "") != 0) {
         char selectedText[12];
@@ -669,7 +652,7 @@ void displayStatusBar() {
     int length = getCharArraySize(TouchPadButtons);
     for (int i = 0; i < length; ++i) {
         int margin = FONT_X_SPACE * 2;
-        int x = SCREEN_WIDTH - ((length - i) * pgf_text_width(TouchPadButtons[i])) - ((length - i) * margin);
+        int x = SCREEN_WIDTH - (80 - 7.5f) - ((length - i) * pgf_text_width(TouchPadButtons[i])) - ((length - i) * margin);
         int active = buttonIsInTouchPad(!REAR_TOUCHPAD_VISIBLE, TouchPadButtons[i]);
         pgf_draw_text(x, statusBarTextY, active ? WHITE : WHITE_OPACITY_30, TouchPadButtons[i]);
     }
@@ -717,7 +700,7 @@ void displayHelpBar() {
     int previousX = 0;
     int useStartPosition = 1;
     int startPosition = SCREEN_HALF_WIDTH - (calculateHelpBarWidth(itemPadding, textPadding) / 2);
-    int top = SCREEN_MARGIN + 10;
+    int top = SCREEN_MARGIN;
 
     for (int i = 0; i < (sizeof HELP_BAR_ITEMS / sizeof HELP_BAR_ITEMS[0]); ++i) {
         struct HelpBarItem item = HELP_BAR_ITEMS[i];
@@ -751,7 +734,7 @@ void displayTouchPadControls() {
             int selected = strcmp(CURRENT_TOUCHPAD_BUTTON_SELECTED, buttons[i]) == 0;
             int hovering = strcmp(CURRENT_TOUCHPAD_BUTTON_HOVERING, buttons[i]) == 0;
             int textY = (data.y1 + height / 2) - (FONT_Y_SPACE / 2);
-            vita2d_draw_rectangle(data.x1, data.y1, width, height, selected ? TOUCHPAD_CONTROLS_BUTTON_SELECTED_BG : hovering ? TOUCHPAD_CONTROLS_BUTTON_HOVER_BG : TOUCHPAD_CONTROLS_BUTTON_BG);
+            drawRectangle(data.x1, data.y1, width, height, 18, selected ? TOUCHPAD_CONTROLS_BUTTON_SELECTED_BG : hovering ? TOUCHPAD_CONTROLS_BUTTON_HOVER_BG : TOUCHPAD_CONTROLS_BUTTON_BG);
             pgf_draw_text((data.x1 + width / 2) - (pgf_text_width(data.id) / 2),  pressed ? textY - (FONT_Y_SPACE / 2) : textY, BLACK, data.id);
             if (pressed) pgf_draw_text((data.x1 + width / 2) - (pgf_text_width("ACTIVE") / 2), (data.y1 + height / 2) - (FONT_Y_SPACE / 2) - (FONT_Y_SPACE / 2) + FONT_Y_SPACE, BLACK_OPACITY_50, "ACTIVE");
         }
@@ -759,11 +742,11 @@ void displayTouchPadControls() {
 }
 
 void displayTouchPadBorders() {
-    if (REAR_TOUCHPAD_VISIBLE) {
-        drawRearTouchPanelBorder();
-    } else {
-        drawFrontTouchPanelBorder();
-    }
+    struct SceTouchPanelInfo info = REAR_TOUCHPAD_VISIBLE ? getCenteredRearTouchPadInfo() : getCenteredFrontTouchPadInfo();
+    int width = info.maxAaX - info.minAaX;
+    int height = info.maxAaY - info.minAaY;
+
+    drawRectangle(info.minAaX, info.minAaY, width, height, 18, TOUCHPAD_CONTROLS_PANEL_BORDER_BG);
 }
 
 void displayTouchPadControlSettings() {
