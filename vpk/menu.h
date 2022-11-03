@@ -3,7 +3,7 @@
 
 #include "settings.h"
 
-extern char *MENU_ITEMS[4];
+extern char *MENU_ITEMS[5];
 extern int CURRENT_MENU_ITEM;
 
 extern int menuItemSelected();

@@ -42,6 +42,8 @@ static int R2_PRESSED;
 static int L3_PRESSED;
 static int R3_PRESSED;
 
+static int LAYOUT_OPTION = 0;
+
 int kuCtrlReadBufferPositive(SceCtrlData *pad_data, int count)
 {
     uint32_t state;
@@ -138,11 +140,11 @@ static void fillGamepadReport(const SceCtrlData *pad, struct GamepadReport *game
 	gamepad->buttons = 0;
 
 	if (pad->buttons & SCE_CTRL_SQUARE)
-		gamepad->buttons |= 1 << 0;
+		gamepad->buttons |= 1 << (LAYOUT_OPTION ? 2 : 0);
 	if (pad->buttons & SCE_CTRL_CROSS)
-		gamepad->buttons |= 1 << 1;
+		gamepad->buttons |= 1 << (LAYOUT_OPTION ? 0 : 1);
 	if (pad->buttons & SCE_CTRL_CIRCLE)
-		gamepad->buttons |= 1 << 2;
+		gamepad->buttons |= 1 << (LAYOUT_OPTION ? 1 : 2);
 	if (pad->buttons & SCE_CTRL_TRIANGLE)
 		gamepad->buttons |= 1 << 3;
 
@@ -171,9 +173,9 @@ static void fillGamepadReport(const SceCtrlData *pad, struct GamepadReport *game
 	if (pad->buttons & SCE_CTRL_DOWN)
 		gamepad->buttons |= 1 << 13;
 	if (pad->buttons & SCE_CTRL_RIGHT)
-		gamepad->buttons |= 1 << 14;
+		gamepad->buttons |= 1 << (LAYOUT_OPTION ? 15 : 14);
 	if (pad->buttons & SCE_CTRL_LEFT)
-		gamepad->buttons |= 1 << 15;
+		gamepad->buttons |= 1 << (LAYOUT_OPTION ? 14 : 15);
 
 	gamepad->left_x = (int8_t)pad->lx - 128;
 	gamepad->left_y = (int8_t)pad->ly - 128;
@@ -186,7 +188,7 @@ static int sendHidReport()
 	static struct GamepadReport gamepad __attribute__((aligned(64))) = { 0 };
 	SceCtrlData pad;
 
-    ksceCtrlPeekBufferPositive(0, &pad, 1);
+  ksceCtrlPeekBufferPositive(0, &pad, 1);
 	fillGamepadReport(&pad, &gamepad);
 	ksceKernelCpuDcacheAndL2WritebackRange(&gamepad, sizeof(gamepad));
 
@@ -427,8 +429,9 @@ void vitaPadPreventSleep() {
     ksceKernelPowerTick(SCE_KERNEL_POWER_TICK_DEFAULT);
 }
 
-void vitaPadStart(void)
+void vitaPadStart(int altLayout)
 {
+		LAYOUT_OPTION = altLayout;
     log_reset();
 
     SHOULD_EXIT_THREAD = 0;

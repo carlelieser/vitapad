@@ -10,7 +10,7 @@ extern "C" {
 #define VITAPAD_ERROR_DRIVER_ALREADY_ACTIVATED	0x91337002
 
 
-void vitaPadStart(void);
+void vitaPadStart(int altLayout);
 void vitaPadStop(void);
 void vitaPadPreventSleep(void);
 void vitaPadUpdateL2Pressed(int pressed);

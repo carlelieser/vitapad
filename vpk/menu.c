@@ -9,7 +9,7 @@
 #include "utils.h"
 #include "main.h"
 
-char *MENU_ITEMS[4] = {"START", "ACTIVE DISPLAY", "TOUCHPAD CONTROLS", "RESET TOUCHPAD CONTROLS"};
+char *MENU_ITEMS[5] = {"START", "ACTIVE DISPLAY", "XINPUT MAPPING", "TOUCHPAD CONTROLS", "RESET TOUCHPAD CONTROLS"};
 int CURRENT_MENU_ITEM = 0;
 
 int menuItemSelected(char *id) {
@@ -32,6 +32,10 @@ void handleMenuActions() {
     if (pressed_pad[PAD_CROSS]) {
         if (menuItemSelected("START")) {
             startPlugin();
+        }
+        if (menuItemSelected("XINPUT MAPPING")) {
+            toggleAltLayout();
+            saveSettings();
         }
         if (menuItemSelected("ACTIVE DISPLAY")) {
             toggleActiveDisplay();
@@ -63,6 +67,8 @@ void displayMenu(int top) {
 
         if (strcmp(MENU_ITEMS[i], "ACTIVE DISPLAY") == 0) {
             sprintf(text, "%s %s", MENU_ITEMS[i], SETTINGS.ACTIVE_DISPLAY ? "ON" : "OFF");
+        } else if (strcmp(MENU_ITEMS[i], "XINPUT MAPPING") == 0) {
+            sprintf(text, "%s %s", MENU_ITEMS[i], SETTINGS.XINPUT_MAPPING ? "ON" : "OFF");
         } else {
             strcpy(text, MENU_ITEMS[i]);
         }
