@@ -1,7 +1,7 @@
 # 🎮 VitaPad
 Use your PlayStation Vita as USB gamepad with front/rear touchpad controls.
 
-## Features
+## ✨ Features
 This is an improved version of the [vitastick plugin by xerpi](https://github.com/xerpi/vitastick) with added functionality, improved code readability, and some major changes that increase reliability and usability.
 - Simple and elegant interface
 - Captures touchpad control input (L2/R2 & L3/R3)
@@ -19,6 +19,11 @@ This is an improved version of the [vitastick plugin by xerpi](https://github.co
     ur0:tai/vitapad.skprx
     ```
 4. Install `vitapad.vpk`.
+
+## 🛠️ Build
+1. Make sure that you have [`cmake`](https://cmake.org/) installed.
+2. Make sure you have VitaSDK installed and configured (try [vdpm](https://github.com/vitasdk/vdpm)).
+3. Run `build.sh`.
 
 ## 🐈 Usage
 Open the VPK and connect your Vita via USB. Press start to initialize gamepad functionality. Press the PS button to disconnect. Enjoy!
